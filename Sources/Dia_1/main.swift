@@ -1,9 +1,9 @@
 import Foundation
 
-enum ExpAluno{
-    case Iniciante 
-    case Intermediario 
-    case Avancado
+enum ExpAluno : String{
+    case Iniciante  = "Iniciante"
+    case Intermediario = "Intermediario"
+    case Avancado = "Avancado"
 }
 
 enum CategoriaAula : String{
@@ -12,6 +12,11 @@ enum CategoriaAula : String{
     case Luta = "Luta"
     case Funcional = "Funcional"
     case Spinning = "Spinning"
+}
+
+enum Funcoes : String{
+    case Aluno = "Aluno"
+    case Instrutor = "Instrutor"
 }
 
 struct planosAcademia{
@@ -34,11 +39,13 @@ class Usuario{
     let nome: String
     let id: String
     let email: String
+    let funcao: Funcoes
 
-    init(nome: String, email: String){
+    init(nome: String, email: String, funcao: Funcoes){
         self.nome = nome
         self.email = email
         id = String(Int.random(in: 100...1000))
+        self.funcao = funcao
     }
 
     func descricao(){
@@ -55,7 +62,7 @@ class Aluno: Usuario{
         self.matricula = matricula
         self.plano = plano
         self.nivel = nivel
-        super.init(nome: nome, email: email)
+        super.init(nome: nome, email: email, funcao: .Aluno)
         
     }
 
@@ -77,7 +84,7 @@ class Instrutor: Usuario{
 
     init(nome: String, email: String, especialidade: CategoriaAula){
         self.especialidade = especialidade
-        super.init(nome: nome, email: nome)
+        super.init(nome: nome, email: email, funcao: .Instrutor)
     }
 
     override func descricao(){
@@ -85,34 +92,36 @@ class Instrutor: Usuario{
     }
 }
 
-
-// Planos academia
-let anual = planosAcademia(nome: "Anual", 
+// Planos de academia - Inicializacao na memoria
+struct catalogoPlanos{
+    static let anual = planosAcademia(nome: "Anual", 
                             valorMensalidade: 100.0, 
                             inclusaoPersonal: true, 
                             limiteDeAulasColetivas: 3, 
                             duracao: 12)
 
-let mensal = planosAcademia(nome: "Mensal", 
+    static let mensal = planosAcademia(nome: "Mensal", 
                             valorMensalidade: 150.0, 
                             inclusaoPersonal: false, 
                             limiteDeAulasColetivas: 1, 
                             duracao: 1)
 
-let trimestral = planosAcademia(nome: "Trimestral", 
+    static let trimestral = planosAcademia(nome: "Trimestral", 
                             valorMensalidade: 130.0, 
                             inclusaoPersonal: true, 
                             limiteDeAulasColetivas: 2, 
                             duracao: 3)
 
+}
+
 // Cadastro de individuos 
-var Aluno1 = Aluno(nome: "Jon", email: "JonSnow@email.com", matricula: "123", plano: anual, nivel: .Avancado)
+var Aluno1 = Aluno(nome: "Jon", email: "JonSnow@email.com", matricula: "123", plano: catalogoPlanos.anual, nivel: .Avancado)
 
 var Instrutor1 = Instrutor(nome: "Ned", email: "NedStark@email.com", especialidade: .Luta)
 
 Aluno1.descricao()
 print() 
-Aluno1.alterarPlano(novoPlano: mensal)
+Aluno1.alterarPlano(novoPlano: catalogoPlanos.mensal)
 print() 
 Aluno1.descricao()
 print()

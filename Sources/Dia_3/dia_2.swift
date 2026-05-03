@@ -12,8 +12,8 @@ protocol Manutencao{
 class Aparelho: Manutencao{
     let nomeMaquina: String
     private(set) var historico: [String] = []
-    private let id: String
-    private(set) var estaFuncionando: Bool = true
+    private(set) var id: String
+    var estaFuncionando: Bool = true
 
     init(nome: String){
         id = String(Int.random(in: 100...1000))
@@ -44,6 +44,7 @@ protocol Aula{
     var categoria: CategoriaAula {get}
     var descricao: String {get}
     var ExpRecomendado: ExpAluno {get}
+    var data: String? {get}
 }
 
 class TurmaColetiva: Aula {
@@ -56,6 +57,8 @@ class TurmaColetiva: Aula {
     let capacidadeMinima: Int
     let capacidadeMaxima: Int
 
+    var data: String? = nil
+
     private(set) var inscritos: [Aluno] = []
 
     init(instrutor: Instrutor, categoria: CategoriaAula, min: Int, max: Int, ExpRecomendado: ExpAluno) {
@@ -65,7 +68,7 @@ class TurmaColetiva: Aula {
         capacidadeMinima = min
         capacidadeMaxima = max
         self.ExpRecomendado = ExpRecomendado
-        descricao = "Aula de \(categoria.rawValue) com o instrutor \(instrutor)"
+        descricao = "Aula de \(categoria.rawValue) com o instrutor \(instrutor.nome)!"
     }
 
     public func setDescricao(descricao: String){
@@ -74,13 +77,13 @@ class TurmaColetiva: Aula {
 
     public func addAluno(aluno: Aluno){
 
-        if(inscritos.contains(where: {$0.getID() == aluno.getID()})){
-            print("O aluno \(aluno.getNome()) já está inscrito nesta aula!")
+        if(inscritos.count >= capacidadeMaxima){
+            print("A turma já atingiu a capacidade máxima!")
             return
         }
 
-        if(inscritos.count >= capacidadeMaxima){
-            print("A turma já atingiu a capacidade máxima!")
+        if(inscritos.contains(where: {$0.getID() == aluno.getID()})){
+            print("O aluno \(aluno.getNome()) já está inscrito nesta aula!")
             return
         }
 
@@ -119,24 +122,15 @@ class TreinoPersonal: Aula {
     let ExpRecomendado: ExpAluno
 
     let aluno: Aluno
-    let horario: String
+    let data: String?
 
-    init(nome: String, instrutor: Instrutor, categoria: CategoriaAula, descricao: String, ExpRecomendado: ExpAluno, aluno: Aluno, horario: String) {
+    init(nome: String, instrutor: Instrutor, categoria: CategoriaAula, descricao: String, ExpRecomendado: ExpAluno, aluno: Aluno, data: String) {
         self.nome = nome
         self.instrutor = instrutor
         self.categoria = categoria
         self.descricao = descricao
         self.ExpRecomendado = ExpRecomendado
         self.aluno = aluno
-        self.horario = horario
+        self.data = data
     }
 }
-
-let instrutor1 = Instrutor(nome: "Ned Stark", email: "Ned@winterfell.com", especialidade: .Luta)
-let aluno1 = Aluno(nome: "Jon Snow", email: "Jon@winterfell.com", matricula: "12345", plano: catalogoPlanos.mensal, nivel: .Iniciante)
-let aula1 = TurmaColetiva(instrutor: instrutor1, categoria: .Luta, min: 5, max: 20, ExpRecomendado: .Intermediario)
-
-aula1.addAluno(aluno: aluno1)
-aula1.addAluno(aluno: aluno1) // Teste de aluno duplicado
-aula1.removerAluno(aluno: aluno1)
-aula1.removerAluno(aluno: aluno1) // Teste de remoção de aluno não inscrito

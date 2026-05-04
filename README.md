@@ -68,3 +68,7 @@ Nesta etapa foi implementada a classe `Academia`, responsável por centralizar e
 - Regras:
     - Aluno deve possuir plano com personal
     - Instrutor não pode ter conflito de horário
+
+---
+## Diagrama de classe
+![Diagrama de classe](Images/image.png)

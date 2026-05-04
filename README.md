@@ -1,5 +1,20 @@
 # Sistema de academia em Swift
-- O projeto consiste na implementação de um sistema de gerenciamento de academia utilizando Swift.
+#### O projeto consiste na implementação de um sistema de gerenciamento de academia utilizando Swift.
+---
+## Roteiro
+`swift run Dia_4`
+
+O sistema simula cenários uso contínuo, validando as regras de negócio:
+
+- Cadastro de múltiplos alunos e instrutores
+- Tentativa de duplicação de aluno (rejeitada)
+- Criação de turma com limite de capacidade
+- Inscrição acima do limite (rejeitada)
+- Tentativa de personal sem plano adequado (rejeitada)
+- Conflito de agenda de instrutor (rejeitado)
+- Simulação de máquina quebrada e detecção automática via manutenção em lote
+
+---
 
 O sistema é capaz de gerenciar
 - Alunos e instrutores
